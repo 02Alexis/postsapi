@@ -48,4 +48,18 @@ export class PostsService {
       runValidators: true,
     });
   }
+
+  async deleteById(id: string): Promise<void> {
+    const isValidId = mongoose.isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const deletedPost = await this.postModel.findByIdAndDelete(id);
+
+    if (!deletedPost) {
+      throw new NotFoundException('Post not found.');
+    }
+  }
 }
