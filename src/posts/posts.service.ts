@@ -41,30 +41,20 @@ export class PostsService {
     return newComment;
   }
 
-  async deleteComment(
-    postId: string,
-    commentId: string,
-    user: User,
-  ): Promise<void> {
+  async deleteComment(postId: string, commentId: string): Promise<void> {
     const post = await this.postModel.findById(postId);
+
     if (!post) {
       throw new NotFoundException('Post not found.');
     }
 
-    const commentIndex = post.comments.findIndex(
-      (c) =>
-        c._id.toString() === commentId &&
-        c.userId.toString() === user._id.toString(),
-    );
+    const commentIndex = post.comments.findIndex((c) => c._id.toString() === commentId);
 
     if (commentIndex === -1) {
-      throw new NotFoundException(
-        'Comment not found or you are not the author.',
-      );
+      throw new NotFoundException('Comment not found.');
     }
 
     post.comments.splice(commentIndex, 1);
-
     await post.save();
   }
 
@@ -109,14 +99,8 @@ export class PostsService {
     });
   }
 
-  async deleteById(id: string): Promise<void> {
-    const isValidId = mongoose.isValidObjectId(id);
-
-    if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
-    }
-
-    const deletedPost = await this.postModel.findByIdAndDelete(id);
+  async deletePost(postId: string): Promise<void> {
+    const deletedPost = await this.postModel.findByIdAndDelete(postId);
 
     if (!deletedPost) {
       throw new NotFoundException('Post not found.');

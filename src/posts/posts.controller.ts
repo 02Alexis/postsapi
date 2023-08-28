@@ -66,14 +66,15 @@ export class PostsController {
     return this.postService.createComment(postId, createCommentDto, user);
   }
 
-  @Delete(':postId/comment/:commentId')
-  @UseGuards(AuthGuard(), AdminGuard) // Se requiere autenticación y ser administrador
-  async deleteComment(
-      @Param('postId') postId: string,
-      @Param('commentId') commentId: string
-  ): Promise<void> {
-      // Eliminar el comentario
-  }
+ // Eliminar un comentario por el administrador
+ @Delete(':postId/comments/:commentId')
+ @UseGuards(AuthGuard(), AdminGuard)
+ async deleteComment(
+   @Param('postId') postId: string,
+   @Param('commentId') commentId: string,
+ ): Promise<void> {
+   await this.postService.deleteComment(postId, commentId);
+ }
 
   // obtner una publicación mediante id
   @Get(':id')
@@ -95,11 +96,11 @@ export class PostsController {
   //     return this.postService.updateById(id, post);
   //   }
 
-  // Eliminar una publicación mediante id
-  @Delete(':postId')
-@UseGuards(AuthGuard(), AdminGuard) // Usar el guardia de autenticación y de administrador
-async deletePost(@Param('postId') postId: string): Promise<void> {
-    // Eliminar el post
-}
+   // Eliminar un post por el administrador
+   @Delete(':postId')
+   @UseGuards(AuthGuard(), AdminGuard)
+   async deletePost(@Param('postId') postId: string): Promise<void> {
+     await this.postService.deletePost(postId);
+   }
 
 }
