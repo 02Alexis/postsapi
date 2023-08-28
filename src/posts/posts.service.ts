@@ -39,25 +39,38 @@ export class PostsService {
     return newComment;
   }
 
-  // async findAll(): Promise<PostP[]> {
-  //   const posts = await this.postModel.find();
+  async deleteComment(
+    postId: string,
+    commentId: string,
+    user: User,
+  ): Promise<void> {
+    const post = await this.postModel.findById(postId);
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
 
-  //   // Realizar transformación de los datos para incluir detalles de los comentarios
-  //   const postsWithComments = await Promise.all(
-  //     posts.map(async (post) => {
-  //       const commentIds = post.comments.map((comment) => comment._id); // Extraemos los IDs de los comentarios
-  //       const populatedComments = await this.populateComments(commentIds);
-  //       return { ...post.toObject(), comments: populatedComments };
-  //     }),
-  //   );
+    const commentIndex = post.comments.findIndex(
+      (c) =>
+        c._id.toString() === commentId &&
+        c.user.toString() === user._id.toString(),
+    );
 
-  //   return postsWithComments;
-  // }
+    if (commentIndex === -1) {
+      throw new NotFoundException(
+        'Comment not found or you are not the author.',
+      );
+    }
+
+    post.comments.splice(commentIndex, 1);
+
+    await post.save();
+  }
+
   async findAll(): Promise<PostP[]> {
     const posts = await this.postModel.find().populate('comments'); //nos traemos la cadena de datos
     return posts;
   }
-  
+
   async populateComments(
     commentIds: mongoose.Types.ObjectId[],
   ): Promise<Comment[]> {
@@ -67,13 +80,6 @@ export class PostsService {
     return populatedComments;
   }
 
-
-  // async create(postp: PostP, user: User): Promise<PostP> {
-  //   const data = Object.assign(postp, { user: user._id });
-
-  //   const res = await this.postModel.create(data);
-  //   return res;
-  // }
   async create(post: PostP): Promise<PostP> {
     const res = await this.postModel.create(post);
     return res;

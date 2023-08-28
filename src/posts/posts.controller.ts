@@ -54,6 +54,7 @@ export class PostsController {
     return this.postService.create(newPost);
   }
 
+  // enviar un comentario a una publicaión
   @Post(':postId/comment')
   @UseGuards(AuthGuard())
   createComment(
@@ -62,6 +63,16 @@ export class PostsController {
     @GetUser() user: User,
   ) {
     return this.postService.createComment(postId, createCommentDto, user);
+  }
+
+  @Delete(':postId/comment/:commentId')
+  @UseGuards(AuthGuard())
+  async deleteComment(
+    @Param('postId') postId: string,
+    @Param('commentId') commentId: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    await this.postService.deleteComment(postId, commentId, user);
   }
 
   // obtner una publicación mediante id
@@ -74,15 +85,15 @@ export class PostsController {
   }
 
   // Actualizar una publicación mediante id
-//   @Put(':id')
-//   async UpdatePost(
-//     @Param('id')
-//     id: string,
-//     @Body()
-//     post: UpdatePostDto,
-//   ): Promise<PostP> {
-//     return this.postService.updateById(id, post);
-//   }
+  //   @Put(':id')
+  //   async UpdatePost(
+  //     @Param('id')
+  //     id: string,
+  //     @Body()
+  //     post: UpdatePostDto,
+  //   ): Promise<PostP> {
+  //     return this.postService.updateById(id, post);
+  //   }
 
   // Eliminar una publicación mediante id
   @Delete(':id')

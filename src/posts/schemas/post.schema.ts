@@ -23,4 +23,6 @@ export class PostP {
   comments: Comment[];
 }
 
+export type PostDocument = PostP & mongoose.Document;
+
 export const PostSchema = SchemaFactory.createForClass(PostP);
