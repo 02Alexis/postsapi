@@ -5,10 +5,16 @@ import { User } from '../../auth/schemas/user.schema';
 @Schema({ timestamps: true })
 export class Comment extends Document {
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  user: User;
+  userId: User;
 
   @Prop()
   text: string;
+
+  @Prop()
+  userName: string; 
+
+  @Prop()
+  userImage: string;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);

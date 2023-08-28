@@ -29,8 +29,10 @@ export class PostsService {
     }
 
     const newComment = new this.commentModel({
-      user: user._id,
+      userId: user._id,
       text: createCommentDto.text,
+      userName: user.name,
+      userImage: user.image_url,
     });
 
     post.comments.push(newComment);
@@ -52,7 +54,7 @@ export class PostsService {
     const commentIndex = post.comments.findIndex(
       (c) =>
         c._id.toString() === commentId &&
-        c.user.toString() === user._id.toString(),
+        c.userId.toString() === user._id.toString(),
     );
 
     if (commentIndex === -1) {

@@ -8,6 +8,9 @@ import { Document } from 'mongoose';
 export class User extends Document {
 
     @Prop()
+    image_url: string;
+
+    @Prop()
     name: string
     
     @Prop({ unique: [ true, 'Duplicate email entered' ] })
