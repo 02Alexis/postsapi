@@ -19,6 +19,12 @@ export class PostP {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
+  @Prop()
+  userName: string;
+
+  @Prop()
+  userImage: string;
+
   @Prop([CommentSchema])
   comments: Comment[];
 }

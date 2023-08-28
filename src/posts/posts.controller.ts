@@ -50,9 +50,8 @@ export class PostsController {
     newPost.title = createPostDto.title;
     newPost.description = createPostDto.description;
     newPost.image_url = createPostDto.image_url;
-    newPost.user = user;
 
-    return this.postService.create(newPost);
+    return this.postService.create(newPost, user);
   }
 
   // enviar un comentario a una publicaión

@@ -72,7 +72,10 @@ export class PostsService {
     return populatedComments;
   }
 
-  async create(post: PostP): Promise<PostP> {
+  async create(post: PostP, user: User): Promise<PostP> {
+    post.user = user; // Asignamos el objeto completo del usuario al post
+  post.userName = user.name; // Asignamos el nombre del usuario al post
+  post.userImage = user.image_url;
     const res = await this.postModel.create(post);
     return res;
   }
