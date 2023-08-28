@@ -18,6 +18,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from 'src/auth/schemas/user.schema';
+import { AdminGuard } from 'src/auth/admin.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -66,13 +67,12 @@ export class PostsController {
   }
 
   @Delete(':postId/comment/:commentId')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), AdminGuard) // Se requiere autenticación y ser administrador
   async deleteComment(
-    @Param('postId') postId: string,
-    @Param('commentId') commentId: string,
-    @GetUser() user: User,
+      @Param('postId') postId: string,
+      @Param('commentId') commentId: string
   ): Promise<void> {
-    await this.postService.deleteComment(postId, commentId, user);
+      // Eliminar el comentario
   }
 
   // obtner una publicación mediante id
@@ -96,8 +96,10 @@ export class PostsController {
   //   }
 
   // Eliminar una publicación mediante id
-  @Delete(':id')
-  async deletePost(@Param('id') id: string): Promise<void> {
-    await this.postService.deleteById(id);
-  }
+  @Delete(':postId')
+@UseGuards(AuthGuard(), AdminGuard) // Usar el guardia de autenticación y de administrador
+async deletePost(@Param('postId') postId: string): Promise<void> {
+    // Eliminar el post
+}
+
 }

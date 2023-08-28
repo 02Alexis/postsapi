@@ -15,6 +15,20 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async createAdminUserIfNotExists() {
+    const adminExists = await this.userModel.exists({ role: 'admin' });
+
+    if (!adminExists) {
+        const hashedPassword = await bcrypt.hash('adminPassword', 10);
+        await this.userModel.create({
+            email: 'admin@example.com',
+            password: hashedPassword,
+            role: 'admin',
+        });
+    }
+}
+
+
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { image_url, name, email, password } = signUpDto;
 

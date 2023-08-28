@@ -7,6 +7,12 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
     constructor(private authService: AuthService) {}
 
+    @Post('/create-admin')
+    async createAdminUser(): Promise<{ message: string }> {
+        await this.authService.createAdminUserIfNotExists();
+        return { message: 'Admin user created or already exists.' };
+    }
+
     @Post('/signup')
     signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
         return this.authService.signUp(signUpDto)
