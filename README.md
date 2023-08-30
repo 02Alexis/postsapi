@@ -22,49 +22,54 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+# <p align="center">Proyecto de NestJS con MongoDB Atlas</p>
 
-## Installation
+# <p align="center">Documentación <a href="https://github.com/02Alexis/postsapi/wiki/Componente-T%C3%A9cnico" target="_blank">como usar la app</a></p>
 
-```bash
-$ git clone https://github.com/02Alexis/postsapi.git
-```
+Este repositorio contiene un proyecto de backend desarrollado con NestJS y MongoDB. A continuación, se detalla cómo configurar el proyecto y acceder a la documentación generada por Swagger.
 
-## Running the app
+## Configuración de Variables de Entorno
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
+Para que el proyecto funcione correctamente, es necesario configurar las variables de entorno en un archivo `.env` en la raíz del proyecto. Puedes crear este archivo y pegar los siguientes datos:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+BD_URI=mongodbyourdb
+JWT_SECRET=codingwithabbas
+JWT_EXPIRES=3d
 ```
 
-## Support
+Asegúrate de reemplazar `mongodbyourdb` con la URL de tu base de datos MongoDB ya sea local o en la nube usando MongoDB Atlas. Estas variables se utilizan para configurar la conexión a la base de datos y para la autenticación JWT.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Proceso de Instalación
 
-## Stay in touch
+# Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. Clona el repositorio utilizando el siguiente comando:
 
-## License
+```sh
+git clone https://github.com/02Alexis/postsapi.git
 
-Nest is [MIT licensed](LICENSE).
+# Navega al directorio del proyecto:
+cd postsapi
+
+# Instala las dependencias del proyecto
+npm install
+
+# Inicia el servidor de desarrollo:
+npm run start:dev
+```
+
+<p align="center">A progressive <a href="https://github.com/02Alexis/postsapi/wiki/Componente-T%C3%A9cnico" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+
+# Acceso a la Documentación de Swagger
+
+Una vez que el servidor esté en funcionamiento, puedes acceder a la documentación de la API generada por Swagger en tu navegador web. Abre el siguiente enlace:
+
+`http://localhost:8000/docs`
+
+Esta interfaz interactiva te permitirá explorar los endpoints de la API, probar las solicitudes y ver las respuestas en tiempo real.
+
+![imagen](https://github.com/02Alexis/postsapi/assets/99287560/08a02b93-f27f-4783-8fce-ddf9cf75b266)
+
+
+¡Disfruta explorando y probando este proyecto de NestJS con MongoDB!
