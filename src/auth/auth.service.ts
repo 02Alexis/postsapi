@@ -19,15 +19,14 @@ export class AuthService {
     const adminExists = await this.userModel.exists({ role: 'admin' });
 
     if (!adminExists) {
-        const hashedPassword = await bcrypt.hash('adminPassword', 10);
-        await this.userModel.create({
-            email: 'admin@example.com',
-            password: hashedPassword,
-            role: 'admin',
-        });
+      const hashedPassword = await bcrypt.hash('adminPassword', 10);
+      await this.userModel.create({
+        email: 'admin@example.com',
+        password: hashedPassword,
+        role: 'admin',
+      });
     }
-}
-
+  }
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { image_url, name, email, password } = signUpDto;
@@ -46,7 +45,7 @@ export class AuthService {
     return { token };
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<{ token: string; user: any }> {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -62,7 +61,9 @@ export class AuthService {
     }
 
     const token = this.jwtService.sign({ id: user._id });
-
-    return { token };
+    return {
+      token,
+      user: { _id: user._id, name: user.name, image_url: user.image_url },
+    };
   }
 }
