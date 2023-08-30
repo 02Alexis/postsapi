@@ -28,6 +28,13 @@
 
 Este repositorio contiene un proyecto de backend desarrollado con NestJS y MongoDB. A continuación, se detalla cómo configurar el proyecto y acceder a la documentación generada por Swagger.
 
+# Requisitos previos
+
+Asegúrate de tener los siguientes requisitos previos instalados en tu sistema:
+* [Node.js: ](https://nodejs.org/en/download) + v18.15.0
+* [MongoDB: ](https://www.mongodb.com/try/download/community) 
+
+
 ## Configuración de Variables de Entorno
 
 Para que el proyecto funcione correctamente, es necesario configurar las variables de entorno en un archivo `.env` en la raíz del proyecto. Puedes crear este archivo y pegar los siguientes datos:
