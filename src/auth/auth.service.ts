@@ -24,6 +24,8 @@ export class AuthService {
         email: 'admin@example.com',
         password: hashedPassword,
         role: 'admin',
+        name: 'Admin',
+        image_url: 'https://res.cloudinary.com/drrpq9vlk/image/upload/v1693404707/_31423fe5-8f67-4091-bdbe-92790f47b8b6_1_zn6baf.jpg',
       });
     }
   }
