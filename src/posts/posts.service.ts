@@ -48,7 +48,9 @@ export class PostsService {
       throw new NotFoundException('Post not found.');
     }
 
-    const commentIndex = post.comments.findIndex((c) => c._id.toString() === commentId);
+    const commentIndex = post.comments.findIndex(
+      (c) => c._id.toString() === commentId,
+    );
 
     if (commentIndex === -1) {
       throw new NotFoundException('Comment not found.');
@@ -74,8 +76,8 @@ export class PostsService {
 
   async create(post: PostP, user: User): Promise<PostP> {
     post.user = user; // Asignamos el objeto completo del usuario al post
-  post.userName = user.name; // Asignamos el nombre del usuario al post
-  post.userImage = user.image_url;
+    post.userName = user.name;
+    post.userImage = user.image_url;
     const res = await this.postModel.create(post);
     return res;
   }
@@ -107,6 +109,46 @@ export class PostsService {
 
     if (!deletedPost) {
       throw new NotFoundException('Post not found.');
+    }
+  }
+
+  // Cuando un Usuario da "Me gusta":
+  async likePost(postId: string, user: User): Promise<void> {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
+
+    if (
+      !post.likes.some(
+        (likedUser) => likedUser.toString() === user._id.toString(),
+      )
+    ) { // se agrega el ID del usuario al array likes y luego actualizarías el contador likeCount:)
+      post.likes.push(user); // Agregar el ID del usuario al array
+      post.likeCount++; 
+      await post.save();
+    }
+  }
+
+  // Cuando un Usuario quita su "Me gusta":( 
+  async unlikePost(postId: string, user: User): Promise<void> {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new NotFoundException('Post not found.');
+    }
+
+    if (
+      post.likes.some(
+        (likedUser) => likedUser.toString() === user._id.toString(),
+      )
+    ) { // se elmina el ID del usuario del array likes y actualizarías el contador likeCount:
+      post.likes = post.likes.filter(
+        (likedUser) => likedUser.toString() !== user._id.toString(),
+      );
+      post.likeCount--;
+      await post.save();
     }
   }
 }

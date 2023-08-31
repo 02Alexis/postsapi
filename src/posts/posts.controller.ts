@@ -30,16 +30,6 @@ export class PostsController {
     return this.postService.findAll();
   }
 
-  // // enviar una publicación
-  // @Post()
-  // @UseGuards(AuthGuard())
-  // async createPost(
-  //     @Body()
-  //     post: CreatePostDto,
-  //     @Req() req,
-  // ): Promise<PostP> {
-  //     return this.postService.create(post, req.user)
-  // }
   @Post()
   @UseGuards(AuthGuard())
   async createPost(
@@ -65,15 +55,15 @@ export class PostsController {
     return this.postService.createComment(postId, createCommentDto, user);
   }
 
- // Eliminar un comentario por el administrador
- @Delete(':postId/comments/:commentId')
- @UseGuards(AuthGuard(), AdminGuard)
- async deleteComment(
-   @Param('postId') postId: string,
-   @Param('commentId') commentId: string,
- ): Promise<void> {
-   await this.postService.deleteComment(postId, commentId);
- }
+  // Eliminar un comentario por el administrador
+  @Delete(':postId/comments/:commentId')
+  @UseGuards(AuthGuard(), AdminGuard)
+  async deleteComment(
+    @Param('postId') postId: string,
+    @Param('commentId') commentId: string,
+  ): Promise<void> {
+    await this.postService.deleteComment(postId, commentId);
+  }
 
   // obtner una publicación mediante id
   @Get(':id')
@@ -84,22 +74,22 @@ export class PostsController {
     return this.postService.findById(id);
   }
 
-  // Actualizar una publicación mediante id
-  //   @Put(':id')
-  //   async UpdatePost(
-  //     @Param('id')
-  //     id: string,
-  //     @Body()
-  //     post: UpdatePostDto,
-  //   ): Promise<PostP> {
-  //     return this.postService.updateById(id, post);
-  //   }
+  // Eliminar un post por el administrador
+  @Delete(':postId')
+  @UseGuards(AuthGuard(), AdminGuard)
+  async deletePost(@Param('postId') postId: string): Promise<void> {
+    await this.postService.deletePost(postId);
+  }
 
-   // Eliminar un post por el administrador
-   @Delete(':postId')
-   @UseGuards(AuthGuard(), AdminGuard)
-   async deletePost(@Param('postId') postId: string): Promise<void> {
-     await this.postService.deletePost(postId);
-   }
+  @Post(':postId/like')
+  @UseGuards(AuthGuard())
+  async likePost(@Param('postId') postId: string, @GetUser() user: User) {
+    await this.postService.likePost(postId, user);
+  }
 
+  @Post(':postId/unlike')
+  @UseGuards(AuthGuard())
+  async unlikePost(@Param('postId') postId: string, @GetUser() user: User) {
+    await this.postService.unlikePost(postId, user);
+  }
 }

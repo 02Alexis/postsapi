@@ -27,6 +27,13 @@ export class PostP {
 
   @Prop([CommentSchema])
   comments: Comment[];
+
+  // agrego un campo de array para almacenar los IDs de los usuarios que han dado "Me gusta":
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  likes: User[];
+
+  @Prop({ default: 0 })
+  likeCount: number;
 }
 
 export type PostDocument = PostP & mongoose.Document;
